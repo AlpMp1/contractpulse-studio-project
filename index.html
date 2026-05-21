@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ContractPulse Studio | AI API Contract Regression Workspace</title>
+<style>
+:root{
+  --bg:#070b16;--card:#101827;--text:#f7fbff;--muted:#a7b7cc;--line:rgba(255,255,255,.10);
+  --cyan:#67e8f9;--blue:#8ab4ff;--green:#86efac;--amber:#fcd34d;--red:#fda4af;--violet:#c4b5fd;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 8% -8%,rgba(103,232,249,.18),transparent 28rem),
+    radial-gradient(circle at 92% 0,rgba(196,181,253,.16),transparent 24rem),
+    radial-gradient(circle at 50% 100%,rgba(134,239,172,.10),transparent 30rem),
+    linear-gradient(180deg,#070b16,#091323 50%,#060a12);
+}
+a{text-decoration:none;color:inherit}.wrap{width:min(1180px,calc(100% - 36px));margin:auto}
+.top{position:sticky;top:0;z-index:10;background:rgba(7,11,22,.78);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:74px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:13px;align-items:center;font-weight:900}
+.logo{
+  width:43px;height:43px;border-radius:16px;background:linear-gradient(135deg,var(--cyan),var(--blue),var(--violet));
+  box-shadow:0 18px 48px rgba(103,232,249,.24);position:relative
+}
+.logo:before{content:"{}";position:absolute;left:8px;top:9px;color:#070b16;font-weight:900;font-family:ui-monospace,monospace;font-size:18px}
+.logo:after{content:"";position:absolute;right:8px;bottom:9px;width:13px;height:4px;border-radius:999px;background:#070b16}
+.brand small{display:block;color:#91a4ba;font-size:12px;font-weight:600}.links{display:flex;gap:22px;color:#c7d4e2;font-size:14px}
+.hero{padding:92px 0 58px}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:center}
+.tag{display:inline-flex;gap:9px;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(103,232,249,.10);border:1px solid rgba(103,232,249,.22);font-size:13px;font-weight:900}
+.pulse{width:8px;height:8px;border-radius:999px;background:var(--green);box-shadow:0 0 0 8px rgba(134,239,172,.12)}
+h1{font-size:clamp(46px,7vw,84px);line-height:.9;letter-spacing:-.075em;margin:18px 0 20px}
+.grad{background:linear-gradient(90deg,#fff,#a5f3fc 34%,#dbeafe 62%,#ddd6fe 92%);-webkit-background-clip:text;color:transparent}
+.lead{font-size:18px;line-height:1.85;color:#c3d0de}.btns{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.btn{padding:13px 18px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);font-weight:850}
+.primary{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#06101f;border:0}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
+.metric,.card{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.045));border:1px solid var(--line);border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,.36)}
+.metric{padding:18px}.metric strong{display:block;font-size:30px}.metric span{font-size:13px;color:var(--muted)}
+.console{overflow:hidden}.console-head{display:flex;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}
+.dots{display:flex;gap:8px}.dot{width:10px;height:10px;border-radius:999px}.dot:nth-child(1){background:#ff7b7b}.dot:nth-child(2){background:#ffd166}.dot:nth-child(3){background:#86efac}
+.console-body,.panel,.feature,.road{padding:22px}
+.badge{display:inline-block;padding:7px 10px;border-radius:999px;background:rgba(253,164,175,.11);border:1px solid rgba(253,164,175,.2);font-size:12px;font-weight:900;color:#ffd8de}
+.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#07101a;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:16px;color:#dce9fb;font-size:12.5px;line-height:1.72;white-space:pre-wrap;overflow:auto}
+.section{padding:46px 0}.section h2{font-size:44px;letter-spacing:-.055em;margin:0 0 10px}.section p{color:#b9c8d8;line-height:1.82}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}.feature h3{margin-top:0}
+.workspace{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.info,.step,.row,.note{padding:14px;border-radius:16px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07)}
+.info span{color:#9fafc2;font-size:13px}.timeline{display:grid;gap:12px}.step small{color:var(--cyan);font-weight:900;letter-spacing:.08em}
+.plus{color:var(--green)}.minus{color:var(--red)}.warn{color:var(--amber)}
+.table{display:grid;gap:10px;margin-top:18px}.row{display:grid;grid-template-columns:1.05fr .6fr .9fr;gap:10px;color:#d8e5f7;font-size:14px}
+.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:rgba(103,232,249,.12);font-size:12px;font-weight:850}
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}.road small{color:var(--cyan);font-weight:900}
+.footer{padding:62px 0;text-align:center;color:#8fa0b7}
+@media(max-width:900px){.grid,.cards,.workspace,.roadmap,.metrics,.info-grid{grid-template-columns:1fr}.links{display:none}.row{grid-template-columns:1fr}h1{font-size:52px}.section h2{font-size:34px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <nav class="wrap nav">
+    <div class="brand"><span class="logo"></span><span>ContractPulse Studio<small>AI API Contract Regression & Compatibility Workspace</small></span></div>
+    <div class="links"><a href="#cap">Capabilities</a><a href="#work">Workspace</a><a href="#patch">Patch</a><a href="#road">Roadmap</a></div>
+  </nav>
+</header>
+
+<main>
+<section class="hero wrap">
+  <div class="grid">
+    <div>
+      <div class="tag"><span class="pulse"></span>AI agents for OpenAPI, GraphQL, protobuf and SDK compatibility</div>
+      <h1>Catch breaking API changes before <span class="grad">clients fail</span>.</h1>
+      <p class="lead">ContractPulse Studio 是一个面向后端平台、SDK 和 SaaS API 的 AI 接口契约回归检测与兼容修复工作台。它会读取 OpenAPI / GraphQL / protobuf schema、PR diff、线上流量样本、客户端 SDK、mock server、契约测试和错误日志，自动发现 breaking change、字段语义漂移、兼容层缺失和客户端升级风险，并生成可审查的修复 patch、契约测试与发布报告。</p>
+      <div class="btns"><a class="btn primary" href="#work">Open Contract Workspace</a><a class="btn" href="#patch">View Compatibility Patch</a></div>
+      <div class="metrics">
+        <div class="metric"><strong>214</strong><span>接口与 schema 节点已对齐</span></div>
+        <div class="metric"><strong>12</strong><span>高风险兼容性回归</span></div>
+        <div class="metric"><strong>8 agents</strong><span>检测、修复、测试、发布协作</span></div>
+      </div>
+    </div>
+    <div class="card console">
+      <div class="console-head"><div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><span style="color:#93a5ba;font-family:monospace">contract_run_9027</span></div>
+      <div class="console-body">
+        <span class="badge">BREAKING CONTRACT CHANGE DETECTED</span>
+        <h3>Invoice API renamed amountDue while mobile SDK still reads amount_due</h3>
+        <div class="code">Loaded context:
+- 37 OpenAPI route definitions
+- 18 GraphQL operations
+- 9 protobuf message files
+- 42 SDK usage examples
+- 16 mock server fixtures
+- 21 traffic sample payloads
+- 11 recent API PR diffs
+
+Contract Agent result:
+GET /v2/invoices/{id}
+field amount_due removed from response example
+new field amountDue added without compatibility alias
+
+Risk:
+mobile SDK v4.2 and partner webhook parser fail silently.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap" id="cap">
+  <h2>Designed for API contracts that many clients depend on.</h2>
+  <p>ContractPulse 不只是比较 schema diff，而是把接口定义、真实流量、SDK 代码、mock fixture、契约测试和发布说明放在一起，判断一次 API 改动是否真的会破坏现有客户端。</p>
+  <div class="cards">
+    <article class="card feature"><h3>Contract Diff Intelligence</h3><p>识别字段删除、类型变化、枚举收缩、必填项变化和分页语义漂移。</p></article>
+    <article class="card feature"><h3>Client Impact Mapping</h3><p>追踪 SDK、web client、mobile app、webhook parser 和 partner 示例代码。</p></article>
+    <article class="card feature"><h3>Compatibility Patch</h3><p>生成 alias、adapter、version gate、deprecation warning 和 schema fixture 修复。</p></article>
+    <article class="card feature"><h3>Contract Test Generation</h3><p>补充 mock server、consumer-driven contract、traffic replay 和 SDK 回归测试。</p></article>
+  </div>
+</section>
+
+<section class="section wrap" id="work">
+  <h2>Contract workspace demo.</h2>
+  <p>下面展示一次 invoice API 字段改名带来的兼容性回归。Agent 会先对比 schema 和真实客户端使用，再生成兼容层、契约测试和发布说明。</p>
+  <div class="workspace">
+    <section class="card panel">
+      <h3>Compatibility Snapshot</h3>
+      <div class="info-grid">
+        <div class="info"><strong>API Surface</strong><span>GET /v2/invoices/{id}</span></div>
+        <div class="info"><strong>Protocol</strong><span>OpenAPI + SDK + Webhook</span></div>
+        <div class="info"><strong>Clients Analyzed</strong><span>42 usages / 6 SDK packages</span></div>
+        <div class="info"><strong>Primary Risk</strong><span>field rename without alias</span></div>
+      </div>
+      <div class="code" style="margin-top:16px">Contract Diff:
+- amount_due: number
++ amountDue: number
+
+Client Impact:
+mobile-sdk-js v4.2 -> invoice.amount_due
+partner webhook parser -> payload.amount_due
+dashboard mock fixture -> amount_due
+billing export mapper -> amountDue
+
+Acceptance criteria:
+1. v2 response preserves amount_due alias during deprecation window
+2. new SDK reads amountDue but accepts legacy payload
+3. mock server contains both old and new examples
+4. contract test fails if alias is removed before sunset date</div>
+      <div class="note" style="margin-top:14px">目标是工程化兼容修复：不把 breaking change 直接推给所有客户端，而是提供可控迁移窗口。</div>
+    </section>
+    <section class="card panel">
+      <h3>Agent Timeline</h3>
+      <div class="timeline">
+        <div class="step"><small>SCHEMA AGENT</small><h4>Compare API contract versions</h4><p>分析 OpenAPI、GraphQL、protobuf 和 response example 的结构差异。</p></div>
+        <div class="step"><small>CLIENT AGENT</small><h4>Trace real client usage</h4><p>读取 SDK、web client、mobile app、webhook parser 和流量样本。</p></div>
+        <div class="step"><small>COMPAT AGENT</small><h4>Generate migration-safe patch</h4><p>生成 alias、adapter、version gate、deprecation warning 和 mock fixture。</p></div>
+        <div class="step"><small>TEST AGENT</small><h4>Validate contract and SDKs</h4><p>补充契约测试、mock server 测试、SDK 回归和 traffic replay。</p></div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<section class="section wrap" id="patch">
+  <h2>Generated compatibility patch.</h2>
+  <p>输出结果包含 API adapter、schema fixture、SDK 兼容读取、契约测试和发布门禁。</p>
+  <div class="workspace">
+    <section class="card panel">
+      <h3>Contract Patch</h3>
+      <div class="code"><span class="minus">- return { id, amountDue, status }</span>
+
+<span class="plus">+ return {</span>
+<span class="plus">+   id,</span>
+<span class="plus">+   amountDue,</span>
+<span class="plus">+   amount_due: amountDue, // deprecated: remove after 2026-09-01</span>
+<span class="plus">+   status</span>
+<span class="plus">+ }</span>
+
+<span class="plus">+ export function readInvoiceAmount(invoice) {</span>
+<span class="plus">+   return invoice.amountDue ?? invoice.amount_due</span>
+<span class="plus">+ }</span>
+
+<span class="plus">+ test('invoice v2 preserves amount_due during deprecation window', async () => {</span>
+<span class="plus">+   const invoice = await api.getInvoice('inv_123')</span>
+<span class="plus">+   expect(invoice.amount_due).toBe(invoice.amountDue)</span>
+<span class="plus">+ })</span></div>
+    </section>
+    <section class="card panel">
+      <h3>Validation Matrix</h3>
+      <div class="table">
+        <div class="row"><span>OpenAPI diff</span><span><span class="pill">PASS</span></span><span>alias documented with sunset</span></div>
+        <div class="row"><span>SDK regression</span><span><span class="pill">PASS</span></span><span>old and new clients parse amount</span></div>
+        <div class="row"><span>Webhook fixture</span><span><span class="pill">PASS</span></span><span>partner payload remains compatible</span></div>
+        <div class="row"><span>Release gate</span><span><span class="pill">READY</span></span><span>sunset warning added</span></div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<section class="section wrap" id="road">
+  <h2>Evaluation roadmap.</h2>
+  <p>后续计划使用多个开源 API、SDK 和 GraphQL 项目验证契约差异分析、客户端影响追踪、兼容修复和发布报告生成能力。</p>
+  <div class="roadmap">
+    <article class="card road"><small>Phase 01</small><h3>Contract Diff Benchmark</h3><p>覆盖字段删除、类型变化、枚举收缩、必填项变化和分页语义变化。</p></article>
+    <article class="card road"><small>Phase 02</small><h3>Client Impact Tests</h3><p>生成 SDK、webhook、mock server、traffic replay 和 consumer-driven contract 测试。</p></article>
+    <article class="card road"><small>Phase 03</small><h3>API Release Review</h3><p>输出兼容性风险、迁移策略、sunset 日期、验证矩阵和发布说明。</p></article>
+  </div>
+</section>
+</main>
+<footer class="footer wrap">ContractPulse Studio · AI API Contract Regression & Compatibility Workspace</footer>
+</body></html>
